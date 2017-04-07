@@ -18,6 +18,6 @@ create or replace package probe is
   procedure start_mem_watcher;
 
   -- Grab the current session pga memory before doing anything else (Bytes)
-  function elapsed_mem return number;
+  function captured_mem return number;
   
 end probe;
