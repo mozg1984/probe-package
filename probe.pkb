@@ -25,7 +25,7 @@ create or replace package body probe is
   end;
 
   -- Grab the current session pga memory before doing anything else (Bytes)
-  function elapsed_mem return number
+  function captured_mem return number
   is
   begin
     return get_stat('session pga memory') - last_stat_memory;
