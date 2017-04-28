@@ -17,21 +17,7 @@ create or replace package body probe is
     return mod(l_end_time - last_timing + power(2, 32), power(2, 32));
   end;
   
-  -- Save current session pga memory to package variable
-  procedure start_mem_watcher
-  is
-  begin
-    last_memory := get_stat('session pga memory');
-  end;
-
-  -- Grab the current session pga memory before doing anything else (Bytes)
-  function captured_mem return number
-  is
-  begin
-    return get_stat('session pga memory') - last_stat_memory;
-  end;
-  
-  -- Return the specified statistics value.
+    -- Return the specified statistics value.
   function get_stat(p_stat in varchar2) return number
   is
     l_return number;
@@ -42,6 +28,20 @@ create or replace package body probe is
     where ms.statistic# = sn.statistic#
     and sn.name = p_stat;
     return l_return;
+  end;
+  
+  -- Save current session pga memory to package variable
+  procedure start_mem_watcher
+  is
+  begin
+    last_stat_memory := get_stat('session pga memory');
+  end;
+
+  -- Grab the current session pga memory before doing anything else (Bytes)
+  function captured_mem return number
+  is
+  begin
+    return get_stat('session pga memory') - last_stat_memory;
   end;
   
 end probe;
